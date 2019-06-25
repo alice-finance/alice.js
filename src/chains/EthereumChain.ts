@@ -1,4 +1,5 @@
 import { ethers } from "ethers";
+
 import Address from "../Address";
 import EthereumConfig from "../config/EthereumConfig";
 import { ZERO_ADDRESS } from "../constants";
@@ -7,6 +8,7 @@ import Gateway from "../contracts/Gateway";
 import ERC20Asset from "../ERC20Asset";
 import { toBigNumber } from "../utils/big-number-utils";
 import { getLogs } from "../utils/ethers-utils";
+
 import Chain from "./Chain";
 
 export interface ETHReceived {

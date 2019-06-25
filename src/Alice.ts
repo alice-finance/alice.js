@@ -1,5 +1,6 @@
 import { EthersSigner } from "loom-js/dist";
 import { AddressMapper } from "loom-js/dist/contracts";
+
 import EthereumChain from "./chains/EthereumChain";
 import LoomChain from "./chains/LoomChain";
 import { ethereumPrivateKeyFromMnemonic, loomPrivateKeyFromMnemonic } from "./utils/crypto-utils";

@@ -11,6 +11,7 @@ import {
 import { EthCoin, TransferGateway } from "loom-js/dist/contracts";
 import { B64ToUint8Array, bytesToHexAddr, publicKeyFromPrivateKey } from "loom-js/dist/crypto-utils";
 import { TransferGatewayTokenKind } from "loom-js/dist/proto/transfer_gateway_pb";
+
 import Address from "../Address";
 import LoomConfig from "../config/LoomConfig";
 import ERC20 from "../contracts/ERC20";
@@ -18,6 +19,7 @@ import ERC20Registry from "../contracts/ERC20Registry";
 import MoneyMarket from "../contracts/MoneyMarket";
 import ERC20Asset from "../ERC20Asset";
 import { toBigNumber } from "../utils/big-number-utils";
+
 import Chain from "./Chain";
 
 class LoomChain implements Chain {
@@ -255,25 +257,24 @@ class LoomChain implements Chain {
      * @param ownerAddress Address of ethereum asset owner.
      */
     public listenToTokenWithdrawal = (assetAddress: string, ownerAddress: string): Promise<string> =>
-        this.createTransferGatewayAsync().then(
-            gateway =>
-                new Promise((resolve, reject) => {
-                    const timer = setTimeout(
-                        () => reject(new Error("Timeout while waiting for withdrawal to be signed")),
-                        120000
-                    );
-                    gateway.on(TransferGateway.EVENT_TOKEN_WITHDRAWAL, event => {
-                        if (
-                            event.tokenContract.equals(Address.createEthereumAddress(assetAddress)) &&
-                            event.tokenOwner.equals(Address.createEthereumAddress(ownerAddress))
-                        ) {
-                            clearTimeout(timer);
-                            gateway.removeAllListeners(TransferGateway.EVENT_TOKEN_WITHDRAWAL);
-                            resolve(bytesToHexAddr(event.sig));
-                        }
-                    });
-                })
-        );
+        new Promise((resolve, reject) => {
+            this.createTransferGatewayAsync().then(gateway => {
+                const timer = setTimeout(
+                    () => reject(new Error("Timeout while waiting for withdrawal to be signed")),
+                    120000
+                );
+                gateway.on(TransferGateway.EVENT_TOKEN_WITHDRAWAL, event => {
+                    if (
+                        event.tokenContract.equals(Address.createEthereumAddress(assetAddress)) &&
+                        event.tokenOwner.equals(Address.createEthereumAddress(ownerAddress))
+                    ) {
+                        clearTimeout(timer);
+                        gateway.removeAllListeners(TransferGateway.EVENT_TOKEN_WITHDRAWAL);
+                        resolve(bytesToHexAddr(event.sig));
+                    }
+                });
+            });
+        });
 
     /**
      * Get a pending ETH withdrawal receipt that has not been processed by `EthereumChain`.

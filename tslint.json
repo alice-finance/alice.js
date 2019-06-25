@@ -12,12 +12,7 @@
     "ordered-imports": [
       true,
       {
-        "grouped-imports": true,
-        "groups": [{
-          "name": "react",
-          "match": "react",
-          "order": 0
-        }]
+        "grouped-imports": true
       }
     ],
     "object-literal-sort-keys": false,
