@@ -3,6 +3,7 @@
 
 build
 docs
+dist/*
 
 ### Node ###
 # Logs

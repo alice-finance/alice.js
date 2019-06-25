@@ -1,12 +1,27 @@
 {
   "name": "alice.js",
   "version": "1.0.0",
-  "main": "index.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "main": "dist/index.js",
   "author": "Yoonjae Yoo",
   "license": "MIT",
   "scripts": {
-    "docs": "./node_modules/typedoc/bin/typedoc --options ./typedoc.js && open docs/index.html"
+    "build": "./node_modules/typescript/bin/tsc",
+    "docs": "./node_modules/typedoc/bin/typedoc --options ./typedoc.js",
+    "prepublish": "yarn build"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:alice-finance/alice.js.git"
+  },
+  "keywords": [ "alice", "ethereum", "loom" ],
+  "bugs": {
+    "url": "https://github.com/alice-finance/alice.js/issues"
+  },
+  "homepage": "https://github.com/alice-finance/alice.js",
   "dependencies": {
     "@alice-finance/money-market": "^0.1.7",
     "bn.js": "^4.11.8",
