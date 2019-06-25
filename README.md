@@ -4,12 +4,12 @@ A set of interfaces to interact with [Alice](https://alice.finance).
 ## Install
 
 ```sh
-yarn add alice.js
+yarn add @alice-finance/alice.js
 ```
 or
 
 ```sh
-npm install alice.js
+npm install @alice-finance/alice.js
 ```
 
 ## Getting Started
@@ -66,7 +66,7 @@ import { BigNumberUtils } from "@alice-finance/alice.js";
 
 const asset = new ERC20Asset("DAIToken", "DAI", 18, "0x...", "0x..."); // DAIToken
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 DAI
-await alice.ethereumChain.depositERC20Async(amount);
+await alice.ethereumChain.depositERC20Async(asset, amount);
 ```
 
 After **10 blocks** of confirmation, transfer gateway oracle generates same amount of assets in Loom Network.
