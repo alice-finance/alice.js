@@ -18,6 +18,7 @@ npm install @alice-finance/alice.js
 You need to create private keys for both Ethereum Network and Loom Network.
 ```js
 import { CryptoUtils } from "@alice-finance/alice.js";
+
 const ethereumPrivateKey = CryptoUtils.createEthereumPrivateKey();
 // save your ethereum private key
 const loomPrivateKey = CryptoUtils.createLoomPrivateKey();
@@ -28,11 +29,13 @@ const loomPrivateKey = CryptoUtils.createLoomPrivateKey();
 If you have private keys, you can create an Alice.
 ```js
 import Alice from "@alice-finance/alice.js";
+
 const alice = new Alice(ethereumPrivateKey, loomPrivateKey);
 ```
 or, you can create Alice using 12-words mnemonic.
 ```js
 import Alice from "@alice-finance/alice.js";
+
 const alice = Alice.fromMnemonic("glove amused flock sight want basic course invite chase paper crater defense"); // example mnemonic
 ```
 
@@ -129,7 +132,7 @@ You can get the list of savings deposited.
 ```js
 const myLoomAddress = alice.loomChain.getAddress().toLocalAddressString();
 const savingRecords = await market.getSavingsRecords(myLoomAddress);
-const recordId = savingRecords[0][0];
+const recordId = savingRecords[0].id;
 ```
 
 ### Withdraw Savings
