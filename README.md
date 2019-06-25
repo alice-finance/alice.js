@@ -83,12 +83,13 @@ const amount = BigNumberUtils.toBigNumber(10**18); // 1 ETH
 const ethereumGateway = "0xb73C9506cb7f4139A4D6Ac81DF1e5b6756Fab7A2"; // mainnet
 const myEthereumAddress = alice.ethereumChain.getAddress().toLocalAddressString();
 // Call to Loom Network
-await alice.loomChain.withdrawETHAsync(amount, ethereumGateway);
+const tx1 = await alice.loomChain.withdrawETHAsync(amount, ethereumGateway);
+await tx1.wait();
 // Listen to the withdrawal signature
 const signature = await alice.loomChain.listenToTokenWithdrawal(Constants.ZERO_ADDRESS, myEthereumAddress);
 // Call to Ethereum Network
-const tx = await alice.ethereumChain.withdrawETHAsync(amount, signature);
-await tx.wait();
+const tx2 = await alice.ethereumChain.withdrawETHAsync(amount, signature);
+await tx2.wait();
 ```
 #### ERC20
 ```js
@@ -97,12 +98,13 @@ import { BigNumberUtils } from "@alice-finance/alice.js";
 const asset = new ERC20Asset("DAIToken", "DAI", 18, "0x...", "0x..."); // DAIToken
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 DAI
 // Call to Loom Network
-await alice.loomChain.withdrawERC20Async(asset, amount);
+const tx1 = await alice.loomChain.withdrawERC20Async(asset, amount);
+await tx1.wait();
 // Listen to the withdrawal signature
 const signature = await alice.loomChain.listenToTokenWithdrawal(asset.ethereumAddress.toLocalAddressString(), myEthereumAddress);
 // Call to Ethereum Network
-const tx = await alice.ethereumChain.withdrawERC20Async(asset, amount, signature);
-await tx.wait();
+const tx2 = await alice.ethereumChain.withdrawERC20Async(asset, amount, signature);
+await tx2.wait();
 ```
 
 ### Start Savings
