@@ -17,7 +17,7 @@ npm install alice.js
 ### Create private keys
 You need to create private keys for both Ethereum Network and Loom Network.
 ```js
-import { CryptoUtils } from "alice.js";
+import { CryptoUtils } from "@alice-finance/alice.js";
 const ethereumPrivateKey = CryptoUtils.createEthereumPrivateKey();
 // save your ethereum private key
 const loomPrivateKey = CryptoUtils.createLoomPrivateKey();
@@ -27,12 +27,12 @@ const loomPrivateKey = CryptoUtils.createLoomPrivateKey();
 ### Create Alice
 If you have private keys, you can create an Alice.
 ```js
-import Alice from "alice.js";
+import Alice from "@alice-finance/alice.js";
 const alice = new Alice(ethereumPrivateKey, loomPrivateKey);
 ```
 or, you can create Alice using 12-words mnemonic.
 ```js
-import Alice from "alice.js";
+import Alice from "@alice-finance/alice.js";
 const alice = Alice.fromMnemonic("glove amused flock sight want basic course invite chase paper crater defense"); // example mnemonic
 ```
 
@@ -55,14 +55,14 @@ const erc20Assets = await alice.loomChain.getERC20AssetsAsync();
 ETH and ERC20 assets must be deposited to Loom Network prior to using Alice's financial services.
 #### ETH
 ```js
-import { BigNumberUtils } from "alice.js";
+import { BigNumberUtils } from "@alice-finance/alice.js";
 
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 ETH
 await alice.ethereumChain.depositETHAsync(amount);
 ```
 #### ERC20
 ```js
-import { BigNumberUtils } from "alice.js";
+import { BigNumberUtils } from "@alice-finance/alice.js";
 
 const asset = new ERC20Asset("DAIToken", "DAI", 18, "0x...", "0x..."); // DAIToken
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 DAI
@@ -75,7 +75,7 @@ After **10 blocks** of confirmation, transfer gateway oracle generates same amou
 ETH and ERC20 assets in Loom Network can be withdrawn to Ethereum Network.
 #### ETH
 ```js
-import { BigNumberUtils, Constants } from "alice.js";
+import { BigNumberUtils, Constants } from "@alice-finance/alice.js";
 
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 ETH
 const ethereumGateway = "0xb73C9506cb7f4139A4D6Ac81DF1e5b6756Fab7A2"; // mainnet
@@ -89,7 +89,7 @@ await alice.ethereumChain.withdrawETHAsync(amount, signature);
 ```
 #### ERC20
 ```js
-import { BigNumberUtils } from "alice.js";
+import { BigNumberUtils } from "@alice-finance/alice.js";
 
 const asset = new ERC20Asset("DAIToken", "DAI", 18, "0x...", "0x..."); // DAIToken
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 DAI
