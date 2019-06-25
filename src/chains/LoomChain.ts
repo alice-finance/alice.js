@@ -44,7 +44,7 @@ class LoomChain implements Chain {
 
     public getSigner = () => this.provider.getSigner();
 
-    public createETHAsync = () => {
+    public getETHAsync = () => {
         return this.eth
             ? Promise.resolve(this.eth)
             : EthCoin.createAsync(this.client, this.address).then(eth => {
@@ -53,15 +53,7 @@ class LoomChain implements Chain {
               });
     };
 
-    public createERC20 = (asset: ERC20Asset) => {
-        return new ERC20(asset.loomAddress.toLocalAddressString(), this.getSigner());
-    };
-
-    public createERC20Registry = () => {
-        return new ERC20Registry(this.config.erc20Registry.address, this.getSigner());
-    };
-
-    public createTransferGatewayAsync = () => {
+    public getTransferGatewayAsync = () => {
         return this.gateway
             ? Promise.resolve(this.gateway)
             : TransferGateway.createAsync(this.client, this.address).then(gateway => {
@@ -70,12 +62,20 @@ class LoomChain implements Chain {
               });
     };
 
-    public createMoneyMarket = () => {
+    public getERC20Registry = () => {
+        return new ERC20Registry(this.config.erc20Registry.address, this.getSigner());
+    };
+
+    public getMoneyMarket = () => {
         return new MoneyMarket(this.config.moneyMarket.address, this.getSigner());
     };
 
+    public createERC20 = (asset: ERC20Asset) => {
+        return new ERC20(asset.loomAddress.toLocalAddressString(), this.getSigner());
+    };
+
     public getERC20AssetsAsync = async (): Promise<ERC20Asset[]> => {
-        const tokens = await this.createERC20Registry().getRegisteredERC20Tokens();
+        const tokens = await this.getERC20Registry().getRegisteredERC20Tokens();
         return tokens.map(
             token =>
                 new ERC20Asset(
@@ -103,7 +103,7 @@ class LoomChain implements Chain {
     };
 
     public balanceOfETHAsync = async (): Promise<ethers.utils.BigNumber> => {
-        const eth = await this.createETHAsync();
+        const eth = await this.getETHAsync();
         return toBigNumber(await eth.getBalanceOfAsync(this.address));
     };
 
@@ -111,7 +111,7 @@ class LoomChain implements Chain {
         to: string,
         amount: ethers.utils.BigNumber
     ): Promise<ethers.providers.TransactionResponse> => {
-        return this.createETHAsync().then(eth => {
+        return this.getETHAsync().then(eth => {
             return {
                 hash: "0x02",
                 to: eth.address.local.toChecksumString(),
@@ -136,7 +136,7 @@ class LoomChain implements Chain {
         spender: string,
         amount: ethers.utils.BigNumber
     ): Promise<ethers.providers.TransactionResponse> => {
-        return this.createETHAsync().then(eth => {
+        return this.getETHAsync().then(eth => {
             return {
                 hash: "0x02",
                 to: eth.address.local.toChecksumString(),
@@ -192,7 +192,7 @@ class LoomChain implements Chain {
         amount: ethers.utils.BigNumber,
         ethereumGateway: string
     ): Promise<ethers.providers.TransactionResponse> => {
-        return this.createTransferGatewayAsync().then(gateway => {
+        return this.getTransferGatewayAsync().then(gateway => {
             return {
                 hash: "0x02",
                 to: gateway.address.local.toChecksumString(),
@@ -227,7 +227,7 @@ class LoomChain implements Chain {
         asset: ERC20Asset,
         amount: ethers.utils.BigNumber
     ): Promise<ethers.providers.TransactionResponse> => {
-        return this.createTransferGatewayAsync().then(gateway => {
+        return this.getTransferGatewayAsync().then(gateway => {
             return {
                 hash: "0x02",
                 to: gateway.address.local.toChecksumString(),
@@ -258,7 +258,7 @@ class LoomChain implements Chain {
      */
     public listenToTokenWithdrawal = (assetAddress: string, ownerAddress: string): Promise<string> =>
         new Promise((resolve, reject) => {
-            this.createTransferGatewayAsync().then(gateway => {
+            this.getTransferGatewayAsync().then(gateway => {
                 const timer = setTimeout(
                     () => reject(new Error("Timeout while waiting for withdrawal to be signed")),
                     120000
@@ -283,7 +283,7 @@ class LoomChain implements Chain {
      * @param ethereumNonce Nonce from calling `EthereumChain.getWithdrawalNonceAsync`.
      */
     public getPendingETHWithdrawalReceipt = async (ethereumNonce: ethers.utils.BigNumber) => {
-        const gateway = await this.createTransferGatewayAsync();
+        const gateway = await this.getTransferGatewayAsync();
         const receipt = await gateway.withdrawalReceiptAsync(this.getAddress());
         if (receipt && receipt.tokenKind === TransferGatewayTokenKind.ETH) {
             const loomNonce = receipt.withdrawalNonce.toString();
@@ -301,7 +301,7 @@ class LoomChain implements Chain {
      * @param ethereumNonce Nonce from calling `EthereumChain.getWithdrawalNonceAsync`.
      */
     public getPendingERC20WithdrawalReceipt = async (ethereumNonce: ethers.utils.BigNumber) => {
-        const gateway = await this.createTransferGatewayAsync();
+        const gateway = await this.getTransferGatewayAsync();
         const receipt = await gateway.withdrawalReceiptAsync(this.getAddress());
         if (receipt && receipt.tokenKind === TransferGatewayTokenKind.ERC20) {
             const loomNonce = receipt.withdrawalNonce.toString();

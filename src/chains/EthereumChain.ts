@@ -54,12 +54,12 @@ class EthereumChain implements Chain {
 
     public getSigner = () => this.wallet;
 
-    public createERC20 = (asset: ERC20Asset) => {
-        return new ERC20(asset.ethereumAddress.toLocalAddressString(), this.getSigner());
+    public getGateway = () => {
+        return new Gateway(this.config.gateway.address, this.getSigner());
     };
 
-    public createGateway = () => {
-        return new Gateway(this.config.gateway.address, this.getSigner());
+    public createERC20 = (asset: ERC20Asset) => {
+        return new ERC20(asset.ethereumAddress.toLocalAddressString(), this.getSigner());
     };
 
     public updateAssetBalancesAsync = (
@@ -139,7 +139,7 @@ class EthereumChain implements Chain {
      * @param amount
      */
     public depositETHAsync = (amount: ethers.utils.BigNumber): Promise<ethers.providers.TransactionResponse> => {
-        const gateway = this.createGateway();
+        const gateway = this.getGateway();
         return this.getSigner().sendTransaction({ to: gateway.address, value: amount });
     };
 
@@ -155,7 +155,7 @@ class EthereumChain implements Chain {
         asset: ERC20Asset,
         amount: ethers.utils.BigNumber
     ): Promise<ethers.providers.TransactionResponse> => {
-        const gateway = this.createGateway();
+        const gateway = this.getGateway();
         return gateway.depositERC20(amount, asset.ethereumAddress.toLocalAddressString());
     };
 
@@ -172,7 +172,7 @@ class EthereumChain implements Chain {
         amount: ethers.utils.BigNumber,
         signature: string
     ): Promise<ethers.providers.TransactionResponse> => {
-        const gateway = this.createGateway();
+        const gateway = this.getGateway();
         return gateway.withdrawETH(amount, signature);
     };
 
@@ -191,7 +191,7 @@ class EthereumChain implements Chain {
         amount: ethers.utils.BigNumber,
         signature: string
     ): Promise<ethers.providers.TransactionResponse> => {
-        const gateway = this.createGateway();
+        const gateway = this.getGateway();
         return gateway.withdrawERC20(amount, signature, asset.ethereumAddress.toLocalAddressString());
     };
 
@@ -203,7 +203,7 @@ class EthereumChain implements Chain {
      */
     public getETHReceivedLogsAsync = async (): Promise<ETHReceived[]> => {
         const provider = this.getProvider();
-        const gateway = this.createGateway();
+        const gateway = this.getGateway();
         const blockNumber = await provider.getBlockNumber();
         const toBlock = Number(blockNumber);
         const transaction = await provider.getTransaction(this.config.gateway.transactionHash);
@@ -234,7 +234,7 @@ class EthereumChain implements Chain {
      */
     public getERC20ReceivedLogsAsync = async (asset: ERC20Asset): Promise<ERC20Received[]> => {
         const provider = this.getProvider();
-        const gateway = this.createGateway();
+        const gateway = this.getGateway();
         const blockNumber = await provider.getBlockNumber();
         const toBlock = Number(blockNumber);
         const transaction = await provider.getTransaction(this.config.gateway.transactionHash);
@@ -281,13 +281,13 @@ class EthereumChain implements Chain {
      * Get your nonce for withdrawal. It increments every time you execute a withdrawal.
      */
     public getWithdrawalNonceAsync = async (): Promise<ethers.utils.BigNumber> => {
-        const gateway = this.createGateway();
+        const gateway = this.getGateway();
         return await gateway.nonces(this.getAddress().toLocalAddressString());
     };
 
     private getTokenWithdrawnLogsAsync = async (assetAddress: Address) => {
         const provider = this.getProvider();
-        const gateway = this.createGateway();
+        const gateway = this.getGateway();
         const blockNumber = await provider.getBlockNumber();
         const toBlock = Number(blockNumber);
         const transaction = await provider.getTransaction(this.config.gateway.transactionHash);
