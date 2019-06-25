@@ -80,7 +80,7 @@ ETH and ERC20 assets in Loom Network can be withdrawn to Ethereum Network.
 import { BigNumberUtils, Constants } from "@alice-finance/alice.js";
 
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 ETH
-const ethereumGateway = "0xb73C9506cb7f4139A4D6Ac81DF1e5b6756Fab7A2"; // mainnet
+const ethereumGateway = alice.ethereumChain.createGateway().address;
 const myEthereumAddress = alice.ethereumChain.getAddress().toLocalAddressString();
 // Call to Loom Network
 const tx1 = await alice.loomChain.withdrawETHAsync(amount, ethereumGateway);
