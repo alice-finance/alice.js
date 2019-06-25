@@ -66,9 +66,12 @@ await tx.wait();
 import { BigNumberUtils } from "@alice-finance/alice.js";
 
 const asset = new ERC20Asset("DAIToken", "DAI", 18, "0x...", "0x..."); // DAIToken
+const gateway = alice.ethereumChain.getGateway();
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 DAI
-const tx = await alice.ethereumChain.depositERC20Async(asset, amount);
-await tx.wait();
+const approveTx = await alice.ethereumChain.approveERC20Async(asset, gateway.address, amount);
+await approveTx.wait();
+const depositTx = await alice.ethereumChain.depositERC20Async(asset, amount);
+await depositTx.wait();
 ```
 
 After **10 blocks** of confirmation, transfer gateway oracle generates same amount of assets in Loom Network.
@@ -80,7 +83,7 @@ ETH and ERC20 assets in Loom Network can be withdrawn to Ethereum Network.
 import { BigNumberUtils, Constants } from "@alice-finance/alice.js";
 
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 ETH
-const ethereumGateway = alice.ethereumChain.createGateway().address;
+const ethereumGateway = alice.ethereumChain.getGateway().address;
 const myEthereumAddress = alice.ethereumChain.getAddress().toLocalAddressString();
 // Call to Loom Network
 const tx1 = await alice.loomChain.withdrawETHAsync(amount, ethereumGateway);
@@ -106,12 +109,13 @@ const signature = await alice.loomChain.listenToTokenWithdrawal(asset.ethereumAd
 const tx2 = await alice.ethereumChain.withdrawERC20Async(asset, amount, signature);
 await tx2.wait();
 ```
+`LoomChain.listenToWithdrawal()` waits for 120 seconds then it times out if no withdrawal signature is generated.
 
 ### Start Savings
 Now if you have DAIs in Loom Network, you can start savings.
 ```js
 const loomChain = alice.loomChain;
-const market = loomChain.createMoneyMarket();
+const market = loomChain.getMoneyMarket();
 const asset = await market.asset(); // DAIToken
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 DAI
 const approveTx = await loomChain.approveERC20Async(asset, market.address, amount);
@@ -132,7 +136,7 @@ const recordId = savingRecords[0][0];
 You can withdraw some or all amount of savings deposited.
 ```js
 const loomChain = alice.loomChain;
-const market = loomChain.createMoneyMarket();
+const market = loomChain.getMoneyMarket();
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 DAI
 const tx = await market.withdraw(recordId, amount);
 await tx.wait();
