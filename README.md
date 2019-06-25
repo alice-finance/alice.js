@@ -58,7 +58,8 @@ ETH and ERC20 assets must be deposited to Loom Network prior to using Alice's fi
 import { BigNumberUtils } from "@alice-finance/alice.js";
 
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 ETH
-await alice.ethereumChain.depositETHAsync(amount);
+const tx = await alice.ethereumChain.depositETHAsync(amount);
+await tx.wait();
 ```
 #### ERC20
 ```js
@@ -66,7 +67,8 @@ import { BigNumberUtils } from "@alice-finance/alice.js";
 
 const asset = new ERC20Asset("DAIToken", "DAI", 18, "0x...", "0x..."); // DAIToken
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 DAI
-await alice.ethereumChain.depositERC20Async(asset, amount);
+const tx = await alice.ethereumChain.depositERC20Async(asset, amount);
+await tx.wait();
 ```
 
 After **10 blocks** of confirmation, transfer gateway oracle generates same amount of assets in Loom Network.
@@ -85,7 +87,8 @@ await alice.loomChain.withdrawETHAsync(amount, ethereumGateway);
 // Listen to the withdrawal signature
 const signature = await alice.loomChain.listenToTokenWithdrawal(Constants.ZERO_ADDRESS, myEthereumAddress);
 // Call to Ethereum Network
-await alice.ethereumChain.withdrawETHAsync(amount, signature);
+const tx = await alice.ethereumChain.withdrawETHAsync(amount, signature);
+await tx.wait();
 ```
 #### ERC20
 ```js
@@ -98,7 +101,8 @@ await alice.loomChain.withdrawERC20Async(asset, amount);
 // Listen to the withdrawal signature
 const signature = await alice.loomChain.listenToTokenWithdrawal(asset.ethereumAddress.toLocalAddressString(), myEthereumAddress);
 // Call to Ethereum Network
-await alice.ethereumChain.withdrawERC20Async(asset, amount, signature);
+const tx = await alice.ethereumChain.withdrawERC20Async(asset, amount, signature);
+await tx.wait();
 ```
 
 ### Start Savings
@@ -127,7 +131,6 @@ You can withdraw some or all amount of savings deposited.
 ```js
 const loomChain = alice.loomChain;
 const market = loomChain.createMoneyMarket();
-const asset = await market.asset(); // DAIToken
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 DAI
 const tx = await market.withdraw(recordId, amount);
 await tx.wait();
