@@ -71,78 +71,90 @@
 				<h2 id="getting-started">Getting Started</h2>
 				<h3 id="create-private-keys">Create private keys</h3>
 				<p>You need to create private keys for both Ethereum Network and Loom Network.</p>
-				<pre><code>import { CryptoUtils } from <span class="hljs-string">"alice.js"</span>;
-const ethereumPrivateKey = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">CryptoUtils</span>.</span></span>create<span class="hljs-constructor">EthereumPrivateKey()</span>;
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { CryptoUtils } <span class="hljs-keyword">from</span> <span class="hljs-string">"alice.js"</span>;
+<span class="hljs-keyword">const</span> ethereumPrivateKey = CryptoUtils.createEthereumPrivateKey();
 <span class="hljs-comment">// save your ethereum private key</span>
-const loomPrivateKey = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">CryptoUtils</span>.</span></span>create<span class="hljs-constructor">LoomPrivateKey()</span>;
-<span class="hljs-comment">// save your loom private key</span></code></pre><h3 id="create-alice">Create Alice</h3>
+<span class="hljs-keyword">const</span> loomPrivateKey = CryptoUtils.createLoomPrivateKey();
+<span class="hljs-comment">// save your loom private key</span></code></pre>
+				<h3 id="create-alice">Create Alice</h3>
 				<p>If you have private keys, you can create an Alice.</p>
-				<pre><code><span class="hljs-keyword">import</span> Alice <span class="hljs-keyword">from</span> <span class="hljs-string">"alice.js"</span>;
-<span class="hljs-keyword">const</span> alice = <span class="hljs-keyword">new</span> Alice(ethereumPrivateKey, loomPrivateKey);</code></pre><p>or, you can create Alice using 12-words mnemonic.</p>
-				<pre><code><span class="hljs-keyword">import</span> Alice <span class="hljs-keyword">from</span> <span class="hljs-string">"alice.js"</span>;
-<span class="hljs-keyword">const</span> alice = Alice.fromMnemonic(<span class="hljs-string">"glove amused flock sight want basic course invite chase paper crater defense"</span>); <span class="hljs-comment">// example mnemonic</span></code></pre><h3 id="map-accounts">Map accounts</h3>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> Alice <span class="hljs-keyword">from</span> <span class="hljs-string">"alice.js"</span>;
+<span class="hljs-keyword">const</span> alice = <span class="hljs-keyword">new</span> Alice(ethereumPrivateKey, loomPrivateKey);</code></pre>
+				<p>or, you can create Alice using 12-words mnemonic.</p>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> Alice <span class="hljs-keyword">from</span> <span class="hljs-string">"alice.js"</span>;
+<span class="hljs-keyword">const</span> alice = Alice.fromMnemonic(<span class="hljs-string">"glove amused flock sight want basic course invite chase paper crater defense"</span>); <span class="hljs-comment">// example mnemonic</span></code></pre>
+				<h3 id="map-accounts">Map accounts</h3>
 				<p>Your accounts in Ethereum Network and Loom Network must be mapped before deposit/withdrawal of assets.</p>
-				<pre><code><span class="hljs-keyword">const</span> <span class="hljs-keyword">mapped</span> = <span class="hljs-keyword">await</span> alice.areAccountsMapped();
-<span class="hljs-keyword">if</span> (!<span class="hljs-keyword">mapped</span>) <span class="hljs-comment">{
-    await alice.mapAccounts();
-}</span></code></pre><h3 id="list-of-erc20-assets">List of ERC20 assets</h3>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> mapped = <span class="hljs-keyword">await</span> alice.areAccountsMapped();
+<span class="hljs-keyword">if</span> (!mapped) {
+    <span class="hljs-keyword">await</span> alice.mapAccounts();
+}</code></pre>
+				<h3 id="list-of-erc20-assets">List of ERC20 assets</h3>
 				<p>You can get the list of ERC20 assets that&#39;s registered in Alice</p>
-				<pre><code><span class="hljs-keyword">const</span> erc20Assets = <span class="hljs-keyword">await</span> alice.loomChain.getERC20AssetsAsync();</code></pre><h3 id="deposit-eth-erc20">Deposit ETH/ERC20</h3>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> erc20Assets = <span class="hljs-keyword">await</span> alice.loomChain.getERC20AssetsAsync();</code></pre>
+				<h3 id="deposit-eth-erc20">Deposit ETH/ERC20</h3>
 				<p>ETH and ERC20 assets must be deposited to Loom Network prior to using Alice&#39;s financial services.</p>
 				<h4 id="eth">ETH</h4>
-				<pre><code>import { BigNumberUtils } from <span class="hljs-string">"alice.js"</span>;
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BigNumberUtils } <span class="hljs-keyword">from</span> <span class="hljs-string">"alice.js"</span>;
 
-const amount = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">BigNumberUtils</span>.</span></span><span class="hljs-keyword">to</span><span class="hljs-constructor">BigNumber(10<span class="hljs-operator">**</span>18)</span>; <span class="hljs-comment">// 1 ETH</span>
-await alice.ethereumChain.deposit<span class="hljs-constructor">ETHAsync(<span class="hljs-params">amount</span>)</span>;</code></pre><h4 id="erc20">ERC20</h4>
-				<pre><code>import { BigNumberUtils } from <span class="hljs-string">"alice.js"</span>;
+<span class="hljs-keyword">const</span> amount = BigNumberUtils.toBigNumber(<span class="hljs-number">10</span>**<span class="hljs-number">18</span>); <span class="hljs-comment">// 1 ETH</span>
+<span class="hljs-keyword">await</span> alice.ethereumChain.depositETHAsync(amount);</code></pre>
+				<h4 id="erc20">ERC20</h4>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BigNumberUtils } <span class="hljs-keyword">from</span> <span class="hljs-string">"alice.js"</span>;
 
-const asset = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ERC20Asset(<span class="hljs-string">"DAIToken"</span>, <span class="hljs-string">"DAI"</span>, 18, <span class="hljs-string">"0x..."</span>, <span class="hljs-string">"0x..."</span>)</span>; <span class="hljs-comment">// DAIToken</span>
-const amount = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">BigNumberUtils</span>.</span></span><span class="hljs-keyword">to</span><span class="hljs-constructor">BigNumber(10<span class="hljs-operator">**</span>18)</span>; <span class="hljs-comment">// 1 DAI</span>
-await alice.ethereumChain.deposit<span class="hljs-constructor">ERC20Async(<span class="hljs-params">amount</span>)</span>;</code></pre><p>After <strong>10 blocks</strong> of confirmation, transfer gateway oracle generates same amount of assets in Loom Network.</p>
+<span class="hljs-keyword">const</span> asset = <span class="hljs-keyword">new</span> ERC20Asset(<span class="hljs-string">"DAIToken"</span>, <span class="hljs-string">"DAI"</span>, <span class="hljs-number">18</span>, <span class="hljs-string">"0x..."</span>, <span class="hljs-string">"0x..."</span>); <span class="hljs-comment">// DAIToken</span>
+<span class="hljs-keyword">const</span> amount = BigNumberUtils.toBigNumber(<span class="hljs-number">10</span>**<span class="hljs-number">18</span>); <span class="hljs-comment">// 1 DAI</span>
+<span class="hljs-keyword">await</span> alice.ethereumChain.depositERC20Async(amount);</code></pre>
+				<p>After <strong>10 blocks</strong> of confirmation, transfer gateway oracle generates same amount of assets in Loom Network.</p>
 				<h3 id="withdraw-eth-erc20">Withdraw ETH/ERC20</h3>
 				<p>ETH and ERC20 assets in Loom Network can be withdrawn to Ethereum Network.</p>
 				<h4 id="eth">ETH</h4>
-				<pre><code>import { BigNumberUtils, Constants } from <span class="hljs-string">"alice.js"</span>;
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BigNumberUtils, Constants } <span class="hljs-keyword">from</span> <span class="hljs-string">"alice.js"</span>;
 
-const amount = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">BigNumberUtils</span>.</span></span><span class="hljs-keyword">to</span><span class="hljs-constructor">BigNumber(10<span class="hljs-operator">**</span>18)</span>; <span class="hljs-comment">// 1 ETH</span>
-const ethereumGateway = <span class="hljs-string">"0xb73C9506cb7f4139A4D6Ac81DF1e5b6756Fab7A2"</span>; <span class="hljs-comment">// mainnet</span>
-const myEthereumAddress = alice.ethereumChain.get<span class="hljs-constructor">Address()</span>.<span class="hljs-keyword">to</span><span class="hljs-constructor">LocalAddressString()</span>;
+<span class="hljs-keyword">const</span> amount = BigNumberUtils.toBigNumber(<span class="hljs-number">10</span>**<span class="hljs-number">18</span>); <span class="hljs-comment">// 1 ETH</span>
+<span class="hljs-keyword">const</span> ethereumGateway = <span class="hljs-string">"0xb73C9506cb7f4139A4D6Ac81DF1e5b6756Fab7A2"</span>; <span class="hljs-comment">// mainnet</span>
+<span class="hljs-keyword">const</span> myEthereumAddress = alice.ethereumChain.getAddress().toLocalAddressString();
 <span class="hljs-comment">// Call to Loom Network</span>
-await alice.loomChain.withdraw<span class="hljs-constructor">ETHAsync(<span class="hljs-params">amount</span>, <span class="hljs-params">ethereumGateway</span>)</span>;
+<span class="hljs-keyword">await</span> alice.loomChain.withdrawETHAsync(amount, ethereumGateway);
 <span class="hljs-comment">// Listen to the withdrawal signature</span>
-const signature = await alice.loomChain.listen<span class="hljs-constructor">ToTokenWithdrawal(Constants.ZERO_ADDRESS, <span class="hljs-params">myEthereumAddress</span>)</span>;
+<span class="hljs-keyword">const</span> signature = <span class="hljs-keyword">await</span> alice.loomChain.listenToTokenWithdrawal(Constants.ZERO_ADDRESS, myEthereumAddress);
 <span class="hljs-comment">// Call to Ethereum Network</span>
-await alice.ethereumChain.withdraw<span class="hljs-constructor">ETHAsync(<span class="hljs-params">amount</span>, <span class="hljs-params">signature</span>)</span>;</code></pre><h4 id="erc20">ERC20</h4>
-				<pre><code>import { BigNumberUtils } from <span class="hljs-string">"alice.js"</span>;
+<span class="hljs-keyword">await</span> alice.ethereumChain.withdrawETHAsync(amount, signature);</code></pre>
+				<h4 id="erc20">ERC20</h4>
+				<pre><code class="language-js"><span class="hljs-keyword">import</span> { BigNumberUtils } <span class="hljs-keyword">from</span> <span class="hljs-string">"alice.js"</span>;
 
-const asset = <span class="hljs-keyword">new</span> <span class="hljs-constructor">ERC20Asset(<span class="hljs-string">"DAIToken"</span>, <span class="hljs-string">"DAI"</span>, 18, <span class="hljs-string">"0x..."</span>, <span class="hljs-string">"0x..."</span>)</span>; <span class="hljs-comment">// DAIToken</span>
-const amount = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">BigNumberUtils</span>.</span></span><span class="hljs-keyword">to</span><span class="hljs-constructor">BigNumber(10<span class="hljs-operator">**</span>18)</span>; <span class="hljs-comment">// 1 DAI</span>
+<span class="hljs-keyword">const</span> asset = <span class="hljs-keyword">new</span> ERC20Asset(<span class="hljs-string">"DAIToken"</span>, <span class="hljs-string">"DAI"</span>, <span class="hljs-number">18</span>, <span class="hljs-string">"0x..."</span>, <span class="hljs-string">"0x..."</span>); <span class="hljs-comment">// DAIToken</span>
+<span class="hljs-keyword">const</span> amount = BigNumberUtils.toBigNumber(<span class="hljs-number">10</span>**<span class="hljs-number">18</span>); <span class="hljs-comment">// 1 DAI</span>
 <span class="hljs-comment">// Call to Loom Network</span>
-await alice.loomChain.withdraw<span class="hljs-constructor">ERC20Async(<span class="hljs-params">asset</span>, <span class="hljs-params">amount</span>)</span>;
+<span class="hljs-keyword">await</span> alice.loomChain.withdrawERC20Async(asset, amount);
 <span class="hljs-comment">// Listen to the withdrawal signature</span>
-const signature = await alice.loomChain.listen<span class="hljs-constructor">ToTokenWithdrawal(<span class="hljs-params">asset</span>.<span class="hljs-params">ethereumAddress</span>.<span class="hljs-params">toLocalAddressString</span>()</span>, myEthereumAddress);
+<span class="hljs-keyword">const</span> signature = <span class="hljs-keyword">await</span> alice.loomChain.listenToTokenWithdrawal(asset.ethereumAddress.toLocalAddressString(), myEthereumAddress);
 <span class="hljs-comment">// Call to Ethereum Network</span>
-await alice.ethereumChain.withdraw<span class="hljs-constructor">ERC20Async(<span class="hljs-params">asset</span>, <span class="hljs-params">amount</span>, <span class="hljs-params">signature</span>)</span>;</code></pre><h3 id="start-savings">Start Savings</h3>
+<span class="hljs-keyword">await</span> alice.ethereumChain.withdrawERC20Async(asset, amount, signature);</code></pre>
+				<h3 id="start-savings">Start Savings</h3>
 				<p>Now if you have DAIs in Loom Network, you can start savings.</p>
-				<pre><code><span class="hljs-keyword">const</span> loomChain = alice.loomChain;
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> loomChain = alice.loomChain;
 <span class="hljs-keyword">const</span> market = loomChain.createMoneyMarket();
-<span class="hljs-keyword">const</span> asset = <span class="hljs-function">await market.<span class="hljs-title">asset</span><span class="hljs-params">()</span></span>; <span class="hljs-comment">// DAIToken</span>
+<span class="hljs-keyword">const</span> asset = <span class="hljs-keyword">await</span> market.asset(); <span class="hljs-comment">// DAIToken</span>
 <span class="hljs-keyword">const</span> amount = BigNumberUtils.toBigNumber(<span class="hljs-number">10</span>**<span class="hljs-number">18</span>); <span class="hljs-comment">// 1 DAI</span>
-<span class="hljs-keyword">const</span> approveTx = <span class="hljs-function">await loomChain.<span class="hljs-title">approveERC20Async</span><span class="hljs-params">(asset, market.address, amount)</span></span>;
-<span class="hljs-function">await approveTx.<span class="hljs-title">wait</span><span class="hljs-params">()</span></span>;
-<span class="hljs-keyword">const</span> depositTx = <span class="hljs-function">await market.<span class="hljs-title">deposit</span><span class="hljs-params">(amount)</span></span>;
-<span class="hljs-function">await depositTx.<span class="hljs-title">wait</span><span class="hljs-params">()</span></span>;</code></pre><h3 id="get-savings-records">Get Savings Records</h3>
+<span class="hljs-keyword">const</span> approveTx = <span class="hljs-keyword">await</span> loomChain.approveERC20Async(asset, market.address, amount);
+<span class="hljs-keyword">await</span> approveTx.wait();
+<span class="hljs-keyword">const</span> depositTx = <span class="hljs-keyword">await</span> market.deposit(amount);
+<span class="hljs-keyword">await</span> depositTx.wait();</code></pre>
+				<h3 id="get-savings-records">Get Savings Records</h3>
 				<p>You can get the list of savings deposited.</p>
-				<pre><code>const myLoomAddress = alice.loomChain.getAddress().toLocalAddressString();
-const savingRecords = await market.getSavingsRecords(myLoomAddress);
-const recordId = savingRecords[<span class="hljs-string">0</span>][<span class="hljs-symbol">0</span>];</code></pre><h3 id="withdraw-savings">Withdraw Savings</h3>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> myLoomAddress = alice.loomChain.getAddress().toLocalAddressString();
+<span class="hljs-keyword">const</span> savingRecords = <span class="hljs-keyword">await</span> market.getSavingsRecords(myLoomAddress);
+<span class="hljs-keyword">const</span> recordId = savingRecords[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>];</code></pre>
+				<h3 id="withdraw-savings">Withdraw Savings</h3>
 				<p>You can withdraw some or all amount of savings deposited.</p>
-				<pre><code><span class="hljs-keyword">const</span> loomChain = alice.loomChain;
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> loomChain = alice.loomChain;
 <span class="hljs-keyword">const</span> market = loomChain.createMoneyMarket();
-<span class="hljs-keyword">const</span> asset = <span class="hljs-function">await market.<span class="hljs-title">asset</span><span class="hljs-params">()</span></span>; <span class="hljs-comment">// DAIToken</span>
+<span class="hljs-keyword">const</span> asset = <span class="hljs-keyword">await</span> market.asset(); <span class="hljs-comment">// DAIToken</span>
 <span class="hljs-keyword">const</span> amount = BigNumberUtils.toBigNumber(<span class="hljs-number">10</span>**<span class="hljs-number">18</span>); <span class="hljs-comment">// 1 DAI</span>
-<span class="hljs-keyword">const</span> tx = <span class="hljs-function">await market.<span class="hljs-title">withdraw</span><span class="hljs-params">(recordId, amount)</span></span>;
-<span class="hljs-function">await tx.<span class="hljs-title">wait</span><span class="hljs-params">()</span></span>;</code></pre><h2 id="author">Author</h2>
+<span class="hljs-keyword">const</span> tx = <span class="hljs-keyword">await</span> market.withdraw(recordId, amount);
+<span class="hljs-keyword">await</span> tx.wait();</code></pre>
+				<h2 id="author">Author</h2>
 				<p>👤 <strong><a href="https://github.com/YoonjaeYoo">@YoonjaeYoo</a></strong></p>
 			</div>
 		</div>
