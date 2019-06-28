@@ -52,7 +52,7 @@ if (!mapped) {
 ### ERC20 자산 목록 가져오기
 Alice에 등록되어 있는 ERC20 자산의 목록을 가져올 수 있습니다.
 ```js
-const erc20Assets = await alice.loomChain.getERC20AssetsAsync();
+const erc20Assets = await alice.getLoomChain().getERC20AssetsAsync();
 ```
 
 ### ETH/ERC20 입금하기
@@ -62,7 +62,7 @@ Alice의 금융 서비스를 사용하기 위해서는 ETH와 ERC20 자산이 �
 import { BigNumberUtils } from "@alice-finance/alice.js";
 
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 ETH
-const tx = await alice.ethereumChain.depositETHAsync(amount);
+const tx = await alice.getEthereumChain().depositETHAsync(amount);
 await tx.wait();
 ```
 #### ERC20
@@ -70,11 +70,11 @@ await tx.wait();
 import { BigNumberUtils } from "@alice-finance/alice.js";
 
 const asset = new ERC20Asset("DAIToken", "DAI", 18, "0x...", "0x..."); // DAIToken
-const gateway = alice.ethereumChain.getGateway();
+const gateway = alice.getEthereumChain().getGateway();
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 DAI
-const approveTx = await alice.ethereumChain.approveERC20Async(asset, gateway.address, amount);
+const approveTx = await alice.getEthereumChain().approveERC20Async(asset, gateway.address, amount);
 await approveTx.wait();
-const depositTx = await alice.ethereumChain.depositERC20Async(asset, amount);
+const depositTx = await alice.getEthereumChain().depositERC20Async(asset, amount);
 await depositTx.wait();
 ```
 
@@ -87,15 +87,15 @@ await depositTx.wait();
 import { BigNumberUtils, Constants } from "@alice-finance/alice.js";
 
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 ETH
-const ethereumGateway = alice.ethereumChain.getGateway().address;
-const myEthereumAddress = alice.ethereumChain.getAddress().toLocalAddressString();
+const ethereumGateway = alice.getEthereumChain().getGateway().address;
+const myEthereumAddress = alice.getEthereumChain().getAddress().toLocalAddressString();
 // Call to Loom Network
-const tx1 = await alice.loomChain.withdrawETHAsync(amount, ethereumGateway);
+const tx1 = await alice.getLoomChain().withdrawETHAsync(amount, ethereumGateway);
 await tx1.wait();
 // Listen to the withdrawal signature
-const signature = await alice.loomChain.listenToTokenWithdrawal(Constants.ZERO_ADDRESS, myEthereumAddress);
+const signature = await alice.getLoomChain().listenToTokenWithdrawal(Constants.ZERO_ADDRESS, myEthereumAddress);
 // Call to Ethereum Network
-const tx2 = await alice.ethereumChain.withdrawETHAsync(amount, signature);
+const tx2 = await alice.getEthereumChain().withdrawETHAsync(amount, signature);
 await tx2.wait();
 ```
 #### ERC20
@@ -105,12 +105,12 @@ import { BigNumberUtils } from "@alice-finance/alice.js";
 const asset = new ERC20Asset("DAIToken", "DAI", 18, "0x...", "0x..."); // DAIToken
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 DAI
 // Call to Loom Network
-const tx1 = await alice.loomChain.withdrawERC20Async(asset, amount);
+const tx1 = await alice.getLoomChain().withdrawERC20Async(asset, amount);
 await tx1.wait();
 // Listen to the withdrawal signature
-const signature = await alice.loomChain.listenToTokenWithdrawal(asset.ethereumAddress.toLocalAddressString(), myEthereumAddress);
+const signature = await alice.getLoomChain().listenToTokenWithdrawal(asset.ethereumAddress.toLocalAddressString(), myEthereumAddress);
 // Call to Ethereum Network
-const tx2 = await alice.ethereumChain.withdrawERC20Async(asset, amount, signature);
+const tx2 = await alice.getEthereumChain().withdrawERC20Async(asset, amount, signature);
 await tx2.wait();
 ```
 `LoomChain.listenToWithdrawal()` 함수는 120초를 기다리는데 그때까지 출금 서명이 생성되지 않으면 타임아웃 됩니다.
@@ -118,7 +118,7 @@ await tx2.wait();
 ### 저축 시작하기
 이제 룸 네트워크에 DAI 자산을 가지고 있으니 저축을 시작할 수 있습니다.
 ```js
-const loomChain = alice.loomChain;
+const loomChain = alice.getLoomChain();
 const market = loomChain.getMoneyMarket();
 const asset = await market.asset(); // DAIToken
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 DAI
@@ -131,7 +131,7 @@ await depositTx.wait();
 ### 저축 기록 가져오기
 입금된 저축 기록을 가져올 수 있습니다.
 ```js
-const myLoomAddress = alice.loomChain.getAddress().toLocalAddressString();
+const myLoomAddress = alice.getLoomChain().getAddress().toLocalAddressString();
 const savingRecords = await market.getSavingsRecords(myLoomAddress);
 const recordId = savingRecords[0].id;
 ```
@@ -139,7 +139,7 @@ const recordId = savingRecords[0].id;
 ### 저축 출금하기
 입금된 저축 금액 중 일부 혹은 전체를 출금할 수 있습니다.
 ```js
-const loomChain = alice.loomChain;
+const loomChain = alice.getLoomChain();
 const market = loomChain.getMoneyMarket();
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 DAI
 const tx = await market.withdraw(recordId, amount);

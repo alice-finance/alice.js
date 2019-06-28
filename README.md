@@ -52,7 +52,7 @@ if (!mapped) {
 ### List of ERC20 assets
 You can get the list of ERC20 assets that's registered in Alice
 ```js
-const erc20Assets = await alice.loomChain.getERC20AssetsAsync();
+const erc20Assets = await alice.getLoomChain().getERC20AssetsAsync();
 ```
 
 ### Deposit ETH/ERC20
@@ -62,7 +62,7 @@ ETH and ERC20 assets must be deposited to Loom Network prior to using Alice's fi
 import { BigNumberUtils } from "@alice-finance/alice.js";
 
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 ETH
-const tx = await alice.ethereumChain.depositETHAsync(amount);
+const tx = await alice.getEthereumChain().depositETHAsync(amount);
 await tx.wait();
 ```
 #### ERC20
@@ -70,11 +70,11 @@ await tx.wait();
 import { BigNumberUtils } from "@alice-finance/alice.js";
 
 const asset = new ERC20Asset("DAIToken", "DAI", 18, "0x...", "0x..."); // DAIToken
-const gateway = alice.ethereumChain.getGateway();
+const gateway = alice.getEthereumChain().getGateway();
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 DAI
-const approveTx = await alice.ethereumChain.approveERC20Async(asset, gateway.address, amount);
+const approveTx = await alice.getEthereumChain().approveERC20Async(asset, gateway.address, amount);
 await approveTx.wait();
-const depositTx = await alice.ethereumChain.depositERC20Async(asset, amount);
+const depositTx = await alice.getEthereumChain().depositERC20Async(asset, amount);
 await depositTx.wait();
 ```
 
@@ -87,15 +87,15 @@ ETH and ERC20 assets in Loom Network can be withdrawn to Ethereum Network.
 import { BigNumberUtils, Constants } from "@alice-finance/alice.js";
 
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 ETH
-const ethereumGateway = alice.ethereumChain.getGateway().address;
-const myEthereumAddress = alice.ethereumChain.getAddress().toLocalAddressString();
+const ethereumGateway = alice.getEthereumChain().getGateway().address;
+const myEthereumAddress = alice.getEthereumChain().getAddress().toLocalAddressString();
 // Call to Loom Network
-const tx1 = await alice.loomChain.withdrawETHAsync(amount, ethereumGateway);
+const tx1 = await alice.getLoomChain().withdrawETHAsync(amount, ethereumGateway);
 await tx1.wait();
 // Listen to the withdrawal signature
-const signature = await alice.loomChain.listenToTokenWithdrawal(Constants.ZERO_ADDRESS, myEthereumAddress);
+const signature = await alice.getLoomChain().listenToTokenWithdrawal(Constants.ZERO_ADDRESS, myEthereumAddress);
 // Call to Ethereum Network
-const tx2 = await alice.ethereumChain.withdrawETHAsync(amount, signature);
+const tx2 = await alice.getEthereumChain().withdrawETHAsync(amount, signature);
 await tx2.wait();
 ```
 #### ERC20
@@ -105,12 +105,12 @@ import { BigNumberUtils } from "@alice-finance/alice.js";
 const asset = new ERC20Asset("DAIToken", "DAI", 18, "0x...", "0x..."); // DAIToken
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 DAI
 // Call to Loom Network
-const tx1 = await alice.loomChain.withdrawERC20Async(asset, amount);
+const tx1 = await alice.getLoomChain().withdrawERC20Async(asset, amount);
 await tx1.wait();
 // Listen to the withdrawal signature
-const signature = await alice.loomChain.listenToTokenWithdrawal(asset.ethereumAddress.toLocalAddressString(), myEthereumAddress);
+const signature = await alice.getLoomChain().listenToTokenWithdrawal(asset.ethereumAddress.toLocalAddressString(), myEthereumAddress);
 // Call to Ethereum Network
-const tx2 = await alice.ethereumChain.withdrawERC20Async(asset, amount, signature);
+const tx2 = await alice.getEthereumChain().withdrawERC20Async(asset, amount, signature);
 await tx2.wait();
 ```
 `LoomChain.listenToWithdrawal()` waits for 120 seconds then it times out if no withdrawal signature is generated.
@@ -118,7 +118,7 @@ await tx2.wait();
 ### Start Savings
 Now if you have DAIs in Loom Network, you can start savings.
 ```js
-const loomChain = alice.loomChain;
+const loomChain = alice.getLoomChain();
 const market = loomChain.getMoneyMarket();
 const asset = await market.asset(); // DAIToken
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 DAI
@@ -131,7 +131,7 @@ await depositTx.wait();
 ### Get Savings Records
 You can get the list of savings deposited.
 ```js
-const myLoomAddress = alice.loomChain.getAddress().toLocalAddressString();
+const myLoomAddress = alice.getLoomChain().getAddress().toLocalAddressString();
 const savingRecords = await market.getSavingsRecords(myLoomAddress);
 const recordId = savingRecords[0].id;
 ```
@@ -139,7 +139,7 @@ const recordId = savingRecords[0].id;
 ### Withdraw Savings
 You can withdraw some or all amount of savings deposited.
 ```js
-const loomChain = alice.loomChain;
+const loomChain = alice.getLoomChain();
 const market = loomChain.getMoneyMarket();
 const amount = BigNumberUtils.toBigNumber(10**18); // 1 DAI
 const tx = await market.withdraw(recordId, amount);

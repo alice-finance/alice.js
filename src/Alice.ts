@@ -10,8 +10,8 @@ export default class Alice {
         return new Alice(ethereumPrivateKeyFromMnemonic(mnemonic), loomPrivateKeyFromMnemonic(mnemonic), testnet);
     }
 
-    public readonly ethereumChain: EthereumChain;
-    public readonly loomChain: LoomChain;
+    private readonly ethereumChain: EthereumChain;
+    private readonly loomChain: LoomChain;
 
     /**
      * @param ethereumPrivateKey - Ethereum Private Key (hex)
@@ -22,6 +22,10 @@ export default class Alice {
         this.ethereumChain = new EthereumChain(ethereumPrivateKey, testnet);
         this.loomChain = new LoomChain(loomPrivateKey, testnet);
     }
+
+    public getEthereumChain = () => this.ethereumChain;
+
+    public getLoomChain = () => this.loomChain;
 
     /**
      * @returns `true` if the ethereum account is mapped with the loom account
