@@ -277,8 +277,8 @@ class EthereumChain implements Chain {
      *
      * @returns an array of `ETHWithdrawn`
      */
-    public getETHWithdrawnLogsAsync = (): Promise<ETHWithdrawn[]> =>
-        this.getTokenWithdrawnLogsAsync(Address.createEthereumAddress(ZERO_ADDRESS));
+    public getETHWithdrawnLogsAsync = (fromBlock: number = 0, toBlock: number = 0): Promise<ETHWithdrawn[]> =>
+        this.getTokenWithdrawnLogsAsync(Address.createEthereumAddress(ZERO_ADDRESS), fromBlock, toBlock);
 
     /**
      * Get a list of `ERC20Withdrawn` logs.
@@ -286,8 +286,11 @@ class EthereumChain implements Chain {
      *
      * @returns an array of `ERC20Withdrawn`
      */
-    public getERC20WithdrawnLogsAsync = (asset: ERC20Asset): Promise<ERC20Withdrawn[]> =>
-        this.getTokenWithdrawnLogsAsync(asset.ethereumAddress);
+    public getERC20WithdrawnLogsAsync = (
+        asset: ERC20Asset,
+        fromBlock: number = 0,
+        toBlock: number = 0
+    ): Promise<ERC20Withdrawn[]> => this.getTokenWithdrawnLogsAsync(asset.ethereumAddress, fromBlock, toBlock);
 
     /**
      * Get your nonce for withdrawal. It increments every time you execute a withdrawal.
