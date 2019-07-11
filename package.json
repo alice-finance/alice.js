@@ -1,6 +1,6 @@
 {
   "name": "@alice-finance/alice.js",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "files": [
     "dist",
     "README.md"
@@ -17,7 +17,11 @@
     "type": "git",
     "url": "git@github.com:alice-finance/alice.js.git"
   },
-  "keywords": [ "alice", "ethereum", "loom" ],
+  "keywords": [
+    "alice",
+    "ethereum",
+    "loom"
+  ],
   "bugs": {
     "url": "https://github.com/alice-finance/alice.js/issues"
   },
