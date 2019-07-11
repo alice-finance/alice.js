@@ -201,13 +201,17 @@ class EthereumChain implements Chain {
      *
      * @returns an array of `ETHReceived`
      */
-    public getETHReceivedLogsAsync = async (): Promise<ETHReceived[]> => {
+    public getETHReceivedLogsAsync = async (fromBlock: number = 0, toBlock: number = 0): Promise<ETHReceived[]> => {
         const provider = this.getProvider();
         const gateway = this.getGateway();
-        const blockNumber = await provider.getBlockNumber();
-        const toBlock = Number(blockNumber);
-        const transaction = await provider.getTransaction(this.config.gateway.transactionHash);
-        const fromBlock = Number(transaction.blockNumber || 0);
+        if (fromBlock === 0) {
+            const transaction = await provider.getTransaction(this.config.gateway.transactionHash);
+            fromBlock = Number(transaction.blockNumber || 0);
+        }
+        if (toBlock === 0) {
+            const blockNumber = await provider.getBlockNumber();
+            toBlock = Number(blockNumber);
+        }
         const event = gateway.interface.events.ETHReceived;
         const logs = await getLogs(provider, {
             address: this.config.gateway.address,
@@ -232,13 +236,21 @@ class EthereumChain implements Chain {
      *
      * @returns an array of `ERC20Received`
      */
-    public getERC20ReceivedLogsAsync = async (asset: ERC20Asset): Promise<ERC20Received[]> => {
+    public getERC20ReceivedLogsAsync = async (
+        asset: ERC20Asset,
+        fromBlock: number = 0,
+        toBlock: number = 0
+    ): Promise<ERC20Received[]> => {
         const provider = this.getProvider();
         const gateway = this.getGateway();
-        const blockNumber = await provider.getBlockNumber();
-        const toBlock = Number(blockNumber);
-        const transaction = await provider.getTransaction(this.config.gateway.transactionHash);
-        const fromBlock = Number(transaction.blockNumber || 0);
+        if (fromBlock === 0) {
+            const transaction = await provider.getTransaction(this.config.gateway.transactionHash);
+            fromBlock = Number(transaction.blockNumber || 0);
+        }
+        if (toBlock === 0) {
+            const blockNumber = await provider.getBlockNumber();
+            toBlock = Number(blockNumber);
+        }
         const event = gateway.interface.events.ERC20Received;
         const logs = await getLogs(provider, {
             address: this.config.gateway.address,
@@ -285,13 +297,17 @@ class EthereumChain implements Chain {
         return await gateway.nonces(this.getAddress().toLocalAddressString());
     };
 
-    private getTokenWithdrawnLogsAsync = async (assetAddress: Address) => {
+    private getTokenWithdrawnLogsAsync = async (assetAddress: Address, fromBlock: number = 0, toBlock: number = 0) => {
         const provider = this.getProvider();
         const gateway = this.getGateway();
-        const blockNumber = await provider.getBlockNumber();
-        const toBlock = Number(blockNumber);
-        const transaction = await provider.getTransaction(this.config.gateway.transactionHash);
-        const fromBlock = Number(transaction.blockNumber || 0);
+        if (fromBlock === 0) {
+            const transaction = await provider.getTransaction(this.config.gateway.transactionHash);
+            fromBlock = Number(transaction.blockNumber || 0);
+        }
+        if (toBlock === 0) {
+            const blockNumber = await provider.getBlockNumber();
+            toBlock = Number(blockNumber);
+        }
         const event = gateway.interface.events.TokenWithdrawn;
         const logs = await getLogs(provider, {
             address: this.config.gateway.address,
