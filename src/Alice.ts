@@ -40,14 +40,12 @@ export default class Alice {
      */
     public mapAccounts = async () => {
         const addressMapper = await AddressMapper.createAsync(this.loomChain.getClient(), this.loomChain.getAddress());
-        if (await addressMapper.hasMappingAsync(this.ethereumChain.getAddress())) {
-            // @ts-ignore
-            const signer = new EthersSigner(this.ethereumChain.getSigner());
-            await addressMapper.addIdentityMappingAsync(
-                this.ethereumChain.getAddress(),
-                this.loomChain.getAddress(),
-                signer
-            );
-        }
+        // @ts-ignore
+        const signer = new EthersSigner(this.ethereumChain.getSigner());
+        await addressMapper.addIdentityMappingAsync(
+            this.ethereumChain.getAddress(),
+            this.loomChain.getAddress(),
+            signer
+        );
     };
 }
