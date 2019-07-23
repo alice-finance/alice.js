@@ -39,20 +39,24 @@ export interface ERC20Withdrawn {
 
 class EthereumChain implements Chain {
     public readonly config: EthereumConfig;
+    private readonly privateKey: string;
     private provider!: ethers.providers.JsonRpcProvider;
     private wallet!: ethers.Wallet;
     private address!: Address;
 
     constructor(privateKey: string, testnet = false) {
         this.config = EthereumConfig.create(testnet);
+        this.privateKey = privateKey;
         this.init(privateKey);
     }
+
+    public getPrivateKey = () => this.privateKey;
 
     public getProvider = () => this.provider;
 
     public getAddress = () => this.address;
 
-    public getSigner = () => this.wallet;
+    public getSigner = (): ethers.Signer => this.wallet;
 
     public getGateway = () => {
         return new Gateway(this.config.gateway.address, this.getSigner());

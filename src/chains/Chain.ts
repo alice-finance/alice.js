@@ -5,6 +5,10 @@ import ERC20Asset from "../ERC20Asset";
 
 interface Chain {
     /**
+     * Get my private key.
+     */
+    getPrivateKey: () => string;
+    /**
      * Get ethers provider. A provider is used for read chain data(non-mutated).
      */
     getProvider: () => ethers.providers.JsonRpcProvider;

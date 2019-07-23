@@ -24,6 +24,7 @@ import Chain from "./Chain";
 
 class LoomChain implements Chain {
     public readonly config: LoomConfig;
+    private readonly privateKey: string;
     private client!: Client;
     private provider!: ethers.providers.JsonRpcProvider;
     private address!: Address;
@@ -32,9 +33,12 @@ class LoomChain implements Chain {
 
     constructor(privateKey: string, testnet = false) {
         this.config = LoomConfig.create(testnet);
+        this.privateKey = privateKey;
         Address.setLoomNetworkName(this.config.networkName);
         this.init(B64ToUint8Array(privateKey));
     }
+
+    public getPrivateKey = () => this.privateKey;
 
     public getClient = () => this.client;
 
@@ -42,7 +46,7 @@ class LoomChain implements Chain {
 
     public getAddress = () => this.address;
 
-    public getSigner = () => this.provider.getSigner();
+    public getSigner = (): ethers.Signer => this.provider.getSigner();
 
     public getETHAsync = () => {
         return this.eth
