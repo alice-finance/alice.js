@@ -22,7 +22,7 @@ class LoomConfig {
         this.chainId = chainId;
         this.networkName = networkName;
         this.endpoint = endpoint;
-        this.erc20Registry = require("@dnextco/alice-proxies/networks/ERC20Registry.json")[this.chainId];
+        this.erc20Registry = require("@alice-finance/alice-proxies/networks/ERC20Registry.json")[this.chainId];
         this.moneyMarket = require("@alice-finance/money-market/networks/MoneyMarket.json")[this.chainId];
     }
 }
