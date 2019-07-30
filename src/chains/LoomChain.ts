@@ -14,9 +14,11 @@ import { TransferGatewayTokenKind } from "loom-js/dist/proto/transfer_gateway_pb
 
 import Address from "../Address";
 import LoomConfig from "../config/LoomConfig";
+import CollateralSource from "../contracts/CollateralSource";
 import ERC20 from "../contracts/ERC20";
 import ERC20Registry from "../contracts/ERC20Registry";
-import MoneyMarket from "../contracts/MoneyMarket";
+import MoneyMarket from "../contracts/MoneyMarketLoanV1";
+import PriceSource from "../contracts/PriceSource";
 import ERC20Asset from "../ERC20Asset";
 import { toBigNumber } from "../utils/big-number-utils";
 
@@ -73,6 +75,14 @@ class LoomChain implements Chain {
     public getMoneyMarket = () => {
         return new MoneyMarket(this.config.moneyMarket.address, this.getSigner());
     };
+
+    public getCollateralSource = () => {
+        return new CollateralSource(this.config.collateralSource.address, this.getSigner());
+    };
+
+    public getPriceSource = () => {
+        return new PriceSource(this.config.priceSource.address, this.getSigner());
+    }
 
     public createERC20 = (asset: ERC20Asset) => {
         return new ERC20(asset.loomAddress.toLocalAddressString(), this.getSigner());
