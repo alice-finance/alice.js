@@ -86,7 +86,7 @@ class EthereumChain implements Chain {
         amount: ethers.utils.BigNumber
     ): Promise<ethers.providers.TransactionResponse> => {
         const erc20 = this.createERC20(asset);
-        return erc20.transfer({ to, value: amount });
+        return erc20.transfer(to, amount);
     };
 
     public balanceOfETHAsync = (): Promise<ethers.utils.BigNumber> => {
