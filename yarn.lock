@@ -11,7 +11,7 @@
     deep-eql "^0.1.3"
     keypather "^1.10.2"
 
-"@alice-finance/alice-proxies@^1.0.0":
+"@alice-finance/alice-proxies@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@alice-finance/alice-proxies/-/alice-proxies-1.0.1.tgz#c29037e29f658def7bf2c25796abbb2df396024e"
   integrity sha512-PLuUVEBzwNY9WtdZXDDIRtRxfTi17smD2Z1WCuS7T3m6iRuf0db3er0EjYoR0AqFr569Pi1L4GyhZHbnzOFZaQ==
@@ -22,7 +22,7 @@
     readline-sync "^1.4.9"
     truffle "^5.0.19"
 
-"@alice-finance/money-market@^0.1.7":
+"@alice-finance/money-market@^0.1.9":
   version "0.1.9"
   resolved "https://registry.yarnpkg.com/@alice-finance/money-market/-/money-market-0.1.9.tgz#30912cf4ea3058f859b270d77deb721a486df0e3"
   integrity sha512-8N/CuKEzSOzWQNUJEBkqnobpQJA6TDDSZ2H9qrD3Qgd/IXDFRwVex+3om0pM8FMCtSVSBJ0JTOgv7rTxOCaBKg==
@@ -1029,10 +1029,10 @@ ethereumjs-util@^5.0.0, ethereumjs-util@^5.2.0:
     safe-buffer "^5.1.1"
     secp256k1 "^3.0.1"
 
-ethers@^4.0.30:
-  version "4.0.31"
-  resolved "https://registry.yarnpkg.com/ethers/-/ethers-4.0.31.tgz#50b066d8c74140944edfd2ad0a805162c30e3a20"
-  integrity sha512-S2zKBGvEBIng7hghAXZ9259xCkClyRr/bM0F297O3lAnC6sYjTHNIMtiqWmA89qieAIyzWUZn/aCLUslRlJFkw==
+ethers@^4.0.7, ethers@^4.0.9:
+  version "4.0.33"
+  resolved "https://registry.yarnpkg.com/ethers/-/ethers-4.0.33.tgz#f7b88d2419d731a39aefc37843a3f293e396f918"
+  integrity sha512-lAHkSPzBe0Vj+JrhmkEHLtUEKEheVktIjGDyE9gbzF4zf1vibjYgB57LraDHu4/ItqWVkztgsm8GWqcDMN+6vQ==
   dependencies:
     "@types/node" "^10.3.2"
     aes-js "3.0.0"
@@ -1045,10 +1045,9 @@ ethers@^4.0.30:
     uuid "2.0.1"
     xmlhttprequest "1.8.0"
 
-ethers@^4.0.7, ethers@^4.0.9:
-  version "4.0.33"
-  resolved "https://registry.yarnpkg.com/ethers/-/ethers-4.0.33.tgz#f7b88d2419d731a39aefc37843a3f293e396f918"
-  integrity sha512-lAHkSPzBe0Vj+JrhmkEHLtUEKEheVktIjGDyE9gbzF4zf1vibjYgB57LraDHu4/ItqWVkztgsm8GWqcDMN+6vQ==
+"ethers@https://github.com/alice-finance/ethers.js/archive/ethers-4.0.34.tar.gz":
+  version "4.0.34"
+  resolved "https://github.com/alice-finance/ethers.js/archive/ethers-4.0.34.tar.gz#26191eef998c278bbc15c9d88bac33f04c106a2d"
   dependencies:
     "@types/node" "^10.3.2"
     aes-js "3.0.0"
