@@ -12,9 +12,9 @@
     keypather "^1.10.2"
 
 "@alice-finance/alice-proxies@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@alice-finance/alice-proxies/-/alice-proxies-1.0.1.tgz#c29037e29f658def7bf2c25796abbb2df396024e"
-  integrity sha512-PLuUVEBzwNY9WtdZXDDIRtRxfTi17smD2Z1WCuS7T3m6iRuf0db3er0EjYoR0AqFr569Pi1L4GyhZHbnzOFZaQ==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@alice-finance/alice-proxies/-/alice-proxies-1.1.0.tgz#96d9373fa3ded9511ce6998bb880ba1f19b0172d"
+  integrity sha512-SjCN/g1qX5uXhWYNmt+OPU+jvuzPk1XGDFIADz1/9/PCqLlQ2HIePsTIWALRgzFoQ13tZLlkOz736XzB6HOMeg==
   dependencies:
     dotenv "^8.0.0"
     loom-truffle-provider "^0.13.0"
